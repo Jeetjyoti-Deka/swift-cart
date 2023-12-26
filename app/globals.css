@@ -79,10 +79,14 @@
   .wrapper {
     @apply max-w-7xl mx-auto w-full;
   }
+
+  .btn-hover {
+    @apply hover:bg-accent hover:text-primary transition-colors;
+  }
 }
 
 .header_link {
-  @apply text-lg overflow-hidden relative rounded-[4px] px-[15px] py-[6px];
+  @apply text-lg overflow-hidden relative rounded-[4px] px-[15px] py-[6px] font-semibold;
 }
 
 .header_link::before {
