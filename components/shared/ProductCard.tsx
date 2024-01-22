@@ -4,18 +4,19 @@ import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
 import Link from "next/link";
 import WishListBtn from "./WishListBtn";
+import { Product } from "@/lib/types";
 
-const ProductCard = () => {
+const ProductCard = ({ product }: { product: Product }) => {
   return (
-    <Card className="w-[305px] overflow-hidden shadow-product-card relative">
+    <Card className="w-[280px] md:w-[305px] overflow-hidden shadow-product-card relative">
       <CardHeader className="p-0">
         <Link href={"#"}>
           <Image
-            src="/images/card-img-1.png"
+            src={`/images/${product.img}`}
             alt="img"
             width={357}
             height={357}
-            className="w-full h-auto object-cover object-center"
+            className="w-full h-[200px] object-cover object-center"
           />
         </Link>
       </CardHeader>
@@ -27,14 +28,16 @@ const ProductCard = () => {
         </div>
         <Link href={"#"}>
           <h3 className="font-semibold text-2xl text-slate-900 line-clamp-1">
-            Camera askdbvi ddd dddddd
+            {product.name}
           </h3>
         </Link>
-        <p className="font-light text-slate-500 text-xl">Price: $100.00</p>
+        <p className="font-light text-slate-500 text-xl">
+          Price: ${product.price}
+        </p>
         <Button variant="outline" className="w-full mt-3">
           Buy Now!
         </Button>
-        <WishListBtn productId="1" />
+        <WishListBtn productId={product._id} />
       </CardContent>
     </Card>
   );

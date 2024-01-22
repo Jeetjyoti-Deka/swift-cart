@@ -10,7 +10,7 @@ const addToWishList = (productId: string) => {
 const WishListBtn = ({ productId }: { productId: string }) => {
   return (
     <Button
-      className="absolute top-0 right-0 bg-transparent hover:bg-transparent"
+      className="absolute top-0 right-0 bg-slate-50/40 hover:bg-slate-100/50 w-fit h-fit"
       onClick={() => addToWishList(productId)}
     >
       <Image src="/icons/wishlist.svg" alt="wishlist" width={15} height={18} />
