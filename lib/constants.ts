@@ -2,7 +2,8 @@ export const PRODUCTS = [
   {
     _id: "P001",
     name: "Canon DSLR Camera",
-    description: "Capture stunning photos with this high-quality DSLR camera.",
+    description:
+      "The Canon DSLR Camera is a cutting-edge digital camera designed for photography enthusiasts and professionals alike. With its advanced technology and high-quality optics, this camera allows users to capture stunning and detailed photos in various settings. Equipped with a powerful image sensor, it delivers exceptional clarity and vibrant colors.",
     price: 599.99,
     stockQty: 100,
     img: "card-img-1.png",

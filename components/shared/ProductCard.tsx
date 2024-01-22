@@ -8,16 +8,18 @@ import { Product } from "@/lib/types";
 
 const ProductCard = ({ product }: { product: Product }) => {
   return (
-    <Card className="w-[280px] md:w-[305px] overflow-hidden shadow-product-card relative">
+    <Card className="w-[280px] md:w-[305px] overflow-hidden shadow-product-card relative group">
       <CardHeader className="p-0">
-        <Link href={"#"}>
-          <Image
-            src={`/images/${product.img}`}
-            alt="img"
-            width={357}
-            height={357}
-            className="w-full h-[200px] object-cover object-center"
-          />
+        <Link href={`/products/${product._id}`}>
+          <div className="overflow-hidden">
+            <Image
+              src={`/images/${product.img}`}
+              alt="img"
+              width={357}
+              height={357}
+              className="w-full h-[200px] object-cover object-center group-hover:scale-105 transition-transform"
+            />
+          </div>
         </Link>
       </CardHeader>
       <CardContent className="p-3 pt-2 flex flex-col gap-y-[9px]">
@@ -26,7 +28,7 @@ const ProductCard = ({ product }: { product: Product }) => {
             Electronic
           </Badge>
         </div>
-        <Link href={"#"}>
+        <Link href={`/products/${product._id}`}>
           <h3 className="font-semibold text-2xl text-slate-900 line-clamp-1">
             {product.name}
           </h3>
