@@ -40,7 +40,7 @@ const ProductPage = ({
       </div>
       <div className="mt-16">
         <h3 className="text-xl font-medium">Related Products</h3>
-        <div className="bg-slate-50 py-2">
+        <div className="bg-slate-100 rounded-[8px] py-2">
           <Collection products={PRODUCTS.slice(0, 3)} />
         </div>
       </div>

@@ -90,3 +90,14 @@ export const PRODUCTS = [
     img: "card-img-10.png",
   },
 ];
+
+export const NAV_LINKS = [
+  {
+    label: "Home",
+    route: "/",
+  },
+  {
+    label: "Profile",
+    route: "/profile",
+  },
+];
