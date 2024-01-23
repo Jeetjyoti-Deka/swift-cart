@@ -11,6 +11,8 @@ import Image from "next/image";
 import Link from "next/link";
 import MobileNavLink from "./MobileNavLink";
 import { NAV_LINKS } from "@/lib/constants";
+import { SignInButton, SignedOut } from "@clerk/nextjs";
+import { Button } from "../ui/button";
 
 const MobileNav = ({ pathName }: { pathName: string }) => {
   return (
@@ -19,10 +21,12 @@ const MobileNav = ({ pathName }: { pathName: string }) => {
         <SheetTrigger className="flex items-center justify-center">
           <Image src="/icons/menu.svg" alt="menu" width={24} height={24} />
         </SheetTrigger>
-        <SheetContent side="left">
-          <SheetHeader className="space-y-10">
+        <SheetContent side="left" className=" px-6">
+          <SheetHeader>
             <SheetTitle>SwiftCart</SheetTitle>
-            <div className="flex flex-col items-start gap-y-3 px-4">
+          </SheetHeader>
+          <div className="flex flex-col justify-between h-[90vh]">
+            <div className="flex flex-col items-start gap-y-3 mt-10">
               {NAV_LINKS.map((link) => (
                 <MobileNavLink
                   key={link.route}
@@ -32,7 +36,18 @@ const MobileNav = ({ pathName }: { pathName: string }) => {
                 />
               ))}
             </div>
-          </SheetHeader>
+            <SignedOut>
+              <div>
+                <SignInButton>
+                  <SheetClose asChild>
+                    <Button className="w-full mt-auto" variant="secondary">
+                      Login
+                    </Button>
+                  </SheetClose>
+                </SignInButton>
+              </div>
+            </SignedOut>
+          </div>
         </SheetContent>
       </Sheet>
     </div>

@@ -10,7 +10,7 @@ const Navbar = () => {
   const pathName = usePathname();
 
   return (
-    <nav className="p-4 sm:h-[64px] flex items-center justify-between max-sm:shadow-product-card max-sm:rounded-[24px] max-sm:p-2 max-sm:py-1 max-sm:mt-4 max-sm:mx-1">
+    <nav className="p-4 sm:h-[64px] flex items-center justify-between max-sm:shadow-nav max-sm:rounded-[24px] max-sm:p-2 max-sm:mt-4 max-sm:mx-1">
       <div className="flex items-center justify-center gap-x-3">
         <MobileNav pathName={pathName} />
         <h4>SwiftCart</h4>
@@ -37,7 +37,7 @@ const Navbar = () => {
       </SignedIn>
       <div className="">
         <SignedOut>
-          <div className="hidden md:block">
+          <div className="hidden sm:block">
             <SignInButton>
               <Button>Login</Button>
             </SignInButton>
