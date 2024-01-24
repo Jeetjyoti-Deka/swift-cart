@@ -7,15 +7,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useStore } from "@/lib/store";
 
 type QuantitySelectProps = {
   stockQty: number;
 };
 
 const QuantitySelect = ({ stockQty }: QuantitySelectProps) => {
+  const { setSelectQty } = useStore();
   return (
     // TODO: implement setting quantity in zustand
-    <Select onValueChange={(e) => console.log(e)}>
+    <Select onValueChange={(e) => setSelectQty(Number(e))}>
       <SelectTrigger className="w-[180px]">
         <SelectValue placeholder="Select Quantity" defaultValue={1} />
       </SelectTrigger>
