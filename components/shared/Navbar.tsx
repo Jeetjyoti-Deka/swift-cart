@@ -15,16 +15,22 @@ const Navbar = () => {
         <MobileNav pathName={pathName} />
         <h4>SwiftCart</h4>
       </div>
-      <SignedIn>
-        <div className="hidden sm:flex items-center gap-x-4 text-lg">
-          <Link
-            href="/"
-            className={`${
-              pathName === "/" && "text-blue-400"
-            } transition-colors`}
-          >
-            Home
-          </Link>
+      <div className="hidden sm:flex items-center gap-x-4 text-lg">
+        <Link
+          href="/"
+          className={`${pathName === "/" && "text-blue-400"} transition-colors`}
+        >
+          Home
+        </Link>
+        <Link
+          href="/cart"
+          className={`${
+            pathName === "/cart" && "text-blue-400"
+          } transition-colors`}
+        >
+          Cart
+        </Link>
+        <SignedIn>
           <Link
             href="/profile"
             className={`${
@@ -33,8 +39,8 @@ const Navbar = () => {
           >
             Profile
           </Link>
-        </div>
-      </SignedIn>
+        </SignedIn>
+      </div>
       <div className="">
         <SignedOut>
           <div className="hidden sm:block">

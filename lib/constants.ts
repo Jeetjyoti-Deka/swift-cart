@@ -100,4 +100,8 @@ export const NAV_LINKS = [
     label: "Profile",
     route: "/profile",
   },
+  {
+    label: "Cart",
+    route: "/cart",
+  },
 ];

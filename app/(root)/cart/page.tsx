@@ -1,14 +1,15 @@
-"use client";
-
-import { useStore } from "@/lib/store";
+import CartItems from "@/components/shared/CartItems";
+import CartSummary from "@/components/shared/CartSummary";
+import { Separator } from "@/components/ui/separator";
 
 const CartPage = () => {
-  const { cart } = useStore();
   return (
-    <div>
-      {cart.map((item) => (
-        <p>{item.productId}</p>
-      ))}
+    <div className="relative">
+      <Separator decorative className="sm:hidden block" />
+      <div className="px-3 mt-6 lg:flex w-full">
+        <CartItems />
+        <CartSummary />
+      </div>
     </div>
   );
 };

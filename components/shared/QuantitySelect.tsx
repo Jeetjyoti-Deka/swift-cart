@@ -8,18 +8,42 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useStore } from "@/lib/store";
+import { useEffect } from "react";
 
 type QuantitySelectProps = {
   stockQty: number;
+  defaultQty?: number;
+  itemExistInCart?: boolean;
+  productId?: string;
 };
 
-const QuantitySelect = ({ stockQty }: QuantitySelectProps) => {
-  const { setSelectQty } = useStore();
+const QuantitySelect = ({
+  stockQty,
+  defaultQty,
+  itemExistInCart,
+  productId,
+}: QuantitySelectProps) => {
+  const { setSelectQty, changeProductQuantity } = useStore();
+  useEffect(() => {
+    setSelectQty(defaultQty || 1);
+  }, []);
+
+  const handleValueChange = (e: string) => {
+    if (itemExistInCart && productId) {
+      changeProductQuantity(productId, Number(e));
+    } else {
+      setSelectQty(Number(e));
+    }
+  };
+
   return (
     // TODO: implement setting quantity in zustand
-    <Select onValueChange={(e) => setSelectQty(Number(e))}>
-      <SelectTrigger className="w-[180px]">
-        <SelectValue placeholder="Select Quantity" defaultValue={1} />
+    <Select onValueChange={(e) => handleValueChange(e)}>
+      <SelectTrigger className="w-full">
+        <SelectValue
+          placeholder={defaultQty || "Select Quantity"}
+          defaultValue={defaultQty || 1}
+        />
       </SelectTrigger>
       <SelectContent>
         {Array.from({ length: stockQty }, () => 0).map((_, index) => (

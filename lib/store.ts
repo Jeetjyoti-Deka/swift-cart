@@ -1,5 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { PRODUCTS } from "./constants";
+import { calculatePrice } from "./utils";
 
 export type CartProduct = {
   productId: string;
@@ -9,15 +11,21 @@ export type CartProduct = {
 
 type Store = {
   cart: CartProduct[];
-  addToCart: (cartProduct: CartProduct) => void;
   selectQty: number;
+  totalPrice: number;
+  addToCart: (cartProduct: CartProduct) => void;
   setSelectQty: (qty: number) => void;
+  changeProductQuantity: (productId: string, qty: number) => void;
+  deleteCartItem: (productId: string) => void;
+  calculateTotalPrice: () => void;
 };
 
 export const useStore = create<Store>()(
   persist(
     (set) => ({
       cart: [],
+      selectQty: 0,
+      totalPrice: 0,
       addToCart: (cartProduct: CartProduct) => {
         set((state) => {
           const cartProductExist = state.cart.some(
@@ -41,8 +49,31 @@ export const useStore = create<Store>()(
           }
         });
       },
-      selectQty: 0,
       setSelectQty: (qty: number) => set(() => ({ selectQty: qty })),
+      changeProductQuantity: (productId: string, qty: number) => {
+        set((state) => {
+          const products = state.cart.map((item) => {
+            if (item.productId === productId) {
+              return { ...item, qty };
+            } else {
+              return item;
+            }
+          });
+          return { cart: products };
+        });
+      },
+      deleteCartItem: (productId: string) => {
+        set((state) => ({
+          cart: state.cart.filter((item) => item.productId !== productId),
+        }));
+      },
+      calculateTotalPrice: () =>
+        set((state) => ({
+          totalPrice: state.cart.reduce(
+            (acc, curr) => acc + calculatePrice(curr.qty, curr.price),
+            0
+          ),
+        })),
     }),
     { name: "cart" }
   )

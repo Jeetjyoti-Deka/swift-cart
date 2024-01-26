@@ -1,9 +1,7 @@
 import AddToCartBtn from "@/components/shared/AddToCartBtn";
 import Collection from "@/components/shared/Collection";
 import QuantitySelect from "@/components/shared/QuantitySelect";
-import { Button } from "@/components/ui/button";
 import { PRODUCTS } from "@/lib/constants";
-import { useStore } from "@/lib/store";
 import Image from "next/image";
 
 const ProductPage = ({
@@ -32,7 +30,10 @@ const ProductPage = ({
           </p>
           <p className="text-lg">Price: ${product?.price}</p>
           <div className="flex items-center gap-x-3">
-            Quantity: <QuantitySelect stockQty={product?.stockQty!} />
+            Quantity:{" "}
+            <div className="w-[180px]">
+              <QuantitySelect stockQty={product?.stockQty!} defaultQty={1} />
+            </div>
           </div>
 
           <AddToCartBtn productId={product?._id!} price={product?.price!} />
