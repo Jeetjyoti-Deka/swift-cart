@@ -1,19 +1,26 @@
-import { PRODUCTS } from "@/lib/constants";
 import { CartProduct } from "@/lib/store";
-import { Product } from "@/lib/types";
 import Image from "next/image";
-import { useEffect, useState } from "react";
 import QuantitySelect from "./QuantitySelect";
 import { calculatePrice } from "@/lib/utils";
 import Link from "next/link";
 import DeleteCartItem from "./DeleteCartItem";
+import { getSingleProduct } from "@/lib/actions/product.actions";
+import { useEffect, useState } from "react";
+import { Product } from "@/lib/types";
 
 const CartItem = ({ cartItem }: { cartItem: CartProduct }) => {
   const [product, setProduct] = useState<Product | null>(null);
 
   useEffect(() => {
-    const item = PRODUCTS.find((item) => item._id === cartItem.productId);
-    setProduct(item!);
+    const fetchProduct = async () => {
+      try {
+        const item = await getSingleProduct(cartItem.productId);
+        setProduct(item);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchProduct();
   }, [cartItem]);
 
   if (product) {

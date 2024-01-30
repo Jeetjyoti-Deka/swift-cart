@@ -23,7 +23,7 @@ export default function RootLayout({
         <body className={`${inter.className} scrollbar-hidden scroll-smooth!`}>
           <Navbar />
           <Separator className="hidden sm:block" decorative />
-          <main>{children}</main>
+          <main className="scrollbar-hidden">{children}</main>
         </body>
       </html>
     </ClerkProvider>

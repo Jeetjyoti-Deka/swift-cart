@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { PRODUCTS } from "./constants";
 import { calculatePrice } from "./utils";
 
 export type CartProduct = {

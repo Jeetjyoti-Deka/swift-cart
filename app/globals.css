@@ -70,9 +70,9 @@
   * {
     @apply border-border;
   }
-  body {
+  /* body {
     @apply bg-background text-foreground;
-  }
+  } */
 
   .active-mobile-nav-link {
     @apply bg-[#654597] text-white/90;
@@ -96,7 +96,3 @@
 }
 
 /* Hide scrollbar for IE, Edge and Firefox */
-.scrollbar-hidden {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-}

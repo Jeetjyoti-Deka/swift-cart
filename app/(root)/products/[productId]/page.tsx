@@ -1,15 +1,15 @@
 import AddToCartBtn from "@/components/shared/AddToCartBtn";
 import Collection from "@/components/shared/Collection";
 import QuantitySelect from "@/components/shared/QuantitySelect";
-import { PRODUCTS } from "@/lib/constants";
+import { getSingleProduct } from "@/lib/actions/product.actions";
 import Image from "next/image";
 
-const ProductPage = ({
+const ProductPage = async ({
   params: { productId },
 }: {
   params: { productId: string };
 }) => {
-  const product = PRODUCTS.find((p) => p._id === productId);
+  const product = await getSingleProduct(productId);
 
   return (
     <div className="p-4 max-w-7xl mx-auto">
@@ -42,7 +42,8 @@ const ProductPage = ({
       <div className="mt-16">
         <h3 className="text-xl font-medium">Related Products</h3>
         <div className="bg-slate-100 rounded-[8px] py-2">
-          <Collection products={PRODUCTS.slice(0, 3)} />
+          {/* TODO: Related products by category */}
+          {/* <Collection products={PRODUCTS.slice(0, 3)} /> */}
         </div>
       </div>
     </div>
