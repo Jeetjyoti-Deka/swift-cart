@@ -24,9 +24,13 @@ const ProductCard = ({ product }: { product: Product }) => {
       </CardHeader>
       <CardContent className="p-3 pt-2 flex flex-col gap-y-[9px]">
         <div className="mb-1 w-full flex items-center justify-start gap-x-2">
-          <Badge className="bg-slate-300 text-slate-900 font-light cursor-pointer hover:text-slate-100">
-            Electronic
-          </Badge>
+          {product.categories.map((category) => (
+            <Link key={category._id} href={`/category/${category._id}`}>
+              <Badge className="bg-slate-300 text-slate-900 font-medium cursor-pointer hover:text-slate-100">
+                {category.name}
+              </Badge>
+            </Link>
+          ))}
         </div>
         <Link href={`/products/${product._id}`}>
           <h3 className="font-semibold text-2xl text-slate-900 line-clamp-1">

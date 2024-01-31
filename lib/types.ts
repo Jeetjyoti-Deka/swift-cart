@@ -5,4 +5,8 @@ export type Product = {
   stockQty: number;
   price: number;
   description: string;
+  categories: {
+    _id: string;
+    name: string;
+  }[];
 };

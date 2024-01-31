@@ -1,4 +1,5 @@
 import { Schema, model, models } from "mongoose";
+import Category from "./category.model";
 
 const ProductSchema = new Schema({
   name: {
@@ -21,6 +22,12 @@ const ProductSchema = new Schema({
     type: String,
     required: true,
   },
+  categories: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Category",
+    },
+  ],
 });
 
 const Product = models.Product || model("Product", ProductSchema);
