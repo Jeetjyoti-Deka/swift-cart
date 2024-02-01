@@ -4,6 +4,11 @@ import { connectToDatabase } from "../mongodb";
 import Category from "../mongodb/models/category.model";
 import Product from "../mongodb/models/product.model";
 
+type getAllProductsProps = {
+  page: number | string;
+  limit: number;
+};
+
 export const createProduct = async (product: {
   name: string;
   img: string;
@@ -26,16 +31,31 @@ export const createProduct = async (product: {
   }
 };
 
-export const getAllProducts = async () => {
+export const getAllProducts = async ({
+  page,
+  limit = 6,
+}: getAllProductsProps) => {
+  const skipAmount = (Number(page) - 1) * limit;
+
   try {
     await connectToDatabase();
-    const products = await Product.find().populate({
-      path: "categories",
-      model: Category,
-      select: "_id name",
-    });
+    const products = await Product.find()
+      .skip(skipAmount)
+      .limit(limit)
+      .populate({
+        path: "categories",
+        model: Category,
+        select: "_id name",
+      });
 
-    return JSON.parse(JSON.stringify(products));
+    const productsCount = await Product.countDocuments();
+
+    const totalPages = Math.ceil(productsCount / limit);
+
+    return {
+      data: JSON.parse(JSON.stringify(products)),
+      totalPages,
+    };
   } catch (error) {
     console.log(error);
   }
@@ -64,6 +84,50 @@ export const getProductByCategoryId = async (categoryId: string) => {
     });
 
     return JSON.parse(JSON.stringify(products));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+type getRelatedProductsProps = {
+  productId: string;
+  page: number | string;
+  limit?: number;
+};
+
+export const getRelatedProducts = async ({
+  productId,
+  page,
+  limit = 3,
+}: getRelatedProductsProps) => {
+  try {
+    await connectToDatabase();
+
+    const product = await Product.findById(productId).select("categories");
+
+    const condition = {
+      categories: { $in: product.categories },
+      _id: { $ne: product._id },
+    };
+
+    const skipAmount = (Number(page) - 1) * limit;
+
+    const relatedProducts = await Product.find(condition)
+      .skip(skipAmount)
+      .limit(limit)
+      .populate({
+        path: "categories",
+        model: Category,
+        select: "_id name",
+      });
+
+    const productsCount = await Product.countDocuments(condition);
+    const totalPages = Math.ceil(productsCount / limit);
+
+    return {
+      data: JSON.parse(JSON.stringify(relatedProducts)),
+      totalPages,
+    };
   } catch (error) {
     console.log(error);
   }
