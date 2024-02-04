@@ -10,3 +10,15 @@ export type Product = {
     name: string;
   }[];
 };
+
+export type CheckoutOrderParams = {
+  buyerId: string;
+  products: {
+    price: number;
+    qty: number;
+    name: string;
+    productId: string;
+  }[];
+  totalAmount: number;
+  productIds: string[];
+};
