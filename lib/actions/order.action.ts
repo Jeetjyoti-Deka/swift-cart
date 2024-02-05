@@ -3,6 +3,8 @@
 import Stripe from "stripe";
 import { CheckoutOrderParams } from "../types";
 import { redirect } from "next/navigation";
+import { connectToDatabase } from "../mongodb";
+import Order, { TOrder } from "../mongodb/models/order.model";
 
 export const checkoutOrder = async (order: CheckoutOrderParams) => {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
@@ -25,6 +27,7 @@ export const checkoutOrder = async (order: CheckoutOrderParams) => {
       line_items: lineItems,
       metadata: {
         buyerId: order.buyerId,
+        productIds: order.productIds.join(),
       },
       mode: "payment",
       success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/profile`,
@@ -34,4 +37,14 @@ export const checkoutOrder = async (order: CheckoutOrderParams) => {
     console.log(error);
   }
   redirect(session?.url!);
+};
+
+export const createOrder = async (order: TOrder) => {
+  try {
+    await connectToDatabase();
+
+    const newOrder = await Order.create(order);
+  } catch (error) {
+    console.log(error);
+  }
 };
