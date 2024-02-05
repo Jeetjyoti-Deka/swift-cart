@@ -9,6 +9,12 @@ type getAllProductsProps = {
   limit: number;
 };
 
+type getProductsByCategoryIdProps = {
+  categoryId: string;
+  page: number;
+  limit: number;
+};
+
 export const createProduct = async (product: {
   name: string;
   img: string;
@@ -71,19 +77,36 @@ export const getSingleProduct = async (productId: string) => {
   }
 };
 
-export const getProductByCategoryId = async (categoryId: string) => {
+export const getProductsByCategoryId = async ({
+  categoryId,
+  page,
+  limit = 6,
+}: getProductsByCategoryIdProps) => {
   try {
     await connectToDatabase();
 
-    const products = await Product.find({
-      categories: { $in: [categoryId] },
-    }).populate({
-      path: "categories",
-      model: Category,
-      select: "_id name",
-    });
+    const skipAmount = (page - 1) * limit;
 
-    return JSON.parse(JSON.stringify(products));
+    const condition = {
+      categories: { $in: [categoryId] },
+    };
+
+    const products = await Product.find(condition)
+      .skip(skipAmount)
+      .limit(limit)
+      .populate({
+        path: "categories",
+        model: Category,
+        select: "_id name",
+      });
+
+    const productsCount = await Product.countDocuments(condition);
+    const totalPages = Math.ceil(productsCount / limit);
+
+    return {
+      data: JSON.parse(JSON.stringify(products)),
+      totalPages,
+    };
   } catch (error) {
     console.log(error);
   }
