@@ -4,8 +4,7 @@ export type TOrder = {
   buyerId: string;
   products: {
     productId: string;
-    qty: Number;
-    price: Number;
+    qty: string;
   }[];
   createdAt: Date;
   stripeId: string;
@@ -24,12 +23,9 @@ const OrderSchema = new Schema({
         ref: "Product",
       },
       qty: {
-        type: Number,
+        type: String,
         required: true,
-        default: 1,
-      },
-      price: {
-        type: Number,
+        default: "1",
       },
     },
   ],

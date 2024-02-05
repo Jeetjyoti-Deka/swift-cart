@@ -44,6 +44,7 @@ export const createOrder = async (order: TOrder) => {
     await connectToDatabase();
 
     const newOrder = await Order.create(order);
+    return JSON.parse(JSON.stringify(newOrder));
   } catch (error) {
     console.log(error);
   }

@@ -40,7 +40,9 @@ const Checkout = ({ userId }: { userId: string }) => {
       })
     );
 
-    const productIds = cart.map((product) => product.productId);
+    const productIds = cart.map(
+      (product) => product.productId + `-${product.qty}`
+    );
 
     const order = {
       buyerId: userId,
