@@ -3,6 +3,7 @@
 import { connectToDatabase } from "../mongodb";
 import Category from "../mongodb/models/category.model";
 import Product from "../mongodb/models/product.model";
+import { reduceStockQtyProps } from "../types";
 
 type getAllProductsProps = {
   page: number | string;
@@ -151,6 +152,31 @@ export const getRelatedProducts = async ({
       data: JSON.parse(JSON.stringify(relatedProducts)),
       totalPages,
     };
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const reduceStockQty = async ({
+  productId,
+  qty,
+}: reduceStockQtyProps) => {
+  try {
+    await connectToDatabase();
+
+    const product = await Product.findById(productId);
+
+    if (!product) {
+      throw new Error("Product not found");
+    }
+
+    const newStockQty = product.stockQty - Number(qty);
+
+    product.stockQty = newStockQty;
+
+    await product.save();
+
+    return { message: "Reduced Quantity successfully" };
   } catch (error) {
     console.log(error);
   }

@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { connectToDatabase } from "../mongodb";
 import Order, { TOrder } from "../mongodb/models/order.model";
 import Product from "../mongodb/models/product.model";
+import { reduceStockQty } from "./product.actions";
 
 type getOrderByBuyerIdProps = {
   buyerId: string;

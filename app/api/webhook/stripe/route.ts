@@ -2,6 +2,7 @@ import stripe from "stripe";
 import { NextResponse } from "next/server";
 import { createOrder } from "@/lib/actions/order.action";
 import { TOrder } from "@/lib/mongodb/models/order.model";
+import { reduceStockQty } from "@/lib/actions/product.actions";
 
 export async function POST(request: Request) {
   const body = await request.text();
@@ -40,6 +41,11 @@ export async function POST(request: Request) {
       totalAmount: amount_total ? (amount_total / 100).toString() : "0",
       createdAt: new Date(),
     };
+
+    console.log("before the reduce function");
+    for (const product of order.products) {
+      await reduceStockQty({ productId: product.productId, qty: product.qty });
+    }
 
     const newOrder = await createOrder(order);
 

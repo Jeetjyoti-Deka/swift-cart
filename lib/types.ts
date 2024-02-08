@@ -50,3 +50,8 @@ export type OrderUi = {
   }[];
   totalAmount: string;
 };
+
+export type reduceStockQtyProps = {
+  productId: string;
+  qty: string | number;
+};
