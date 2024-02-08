@@ -36,7 +36,7 @@ const CartItem = ({ cartItem }: { cartItem: CartProduct }) => {
           />
           <div className="block sm:hidden w-[100px] max-sm:p-2">
             <QuantitySelect
-              stockQty={product.stockQty}
+              stockQty={product.stockQty!}
               defaultQty={cartItem.qty}
               itemExistInCart={true}
               productId={product._id}
@@ -53,7 +53,7 @@ const CartItem = ({ cartItem }: { cartItem: CartProduct }) => {
           <div className="sm:flex items-center justify-between w-full pr-4 hidden ">
             <div className="w-[180px]">
               <QuantitySelect
-                stockQty={product.stockQty}
+                stockQty={product.stockQty!}
                 defaultQty={cartItem.qty}
                 itemExistInCart={true}
                 productId={product._id}
