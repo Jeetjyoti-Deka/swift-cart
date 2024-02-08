@@ -2,13 +2,21 @@ export type Product = {
   _id: string;
   name: string;
   img: string;
-  stockQty: number;
+  stockQty?: number;
+  qty?: string;
   price: number;
-  description: string;
-  categories: {
+  description?: string;
+  categories?: {
     _id: string;
     name: string;
   }[];
+};
+
+export type ProfileProductCardProps = {
+  _id: string;
+  name: string;
+  img: string;
+  price: number;
 };
 
 export type CheckoutOrderParams = {
@@ -21,4 +29,24 @@ export type CheckoutOrderParams = {
   }[];
   totalAmount: number;
   productIds: string[];
+};
+
+export type SearchParamProps = {
+  searchParams: { [key: string]: string | string[] | undefined };
+};
+
+export type OrderUi = {
+  _id: string;
+  buyerId: string;
+  products: {
+    _id: string;
+    productId: {
+      name: string;
+      _id: string;
+      price: number;
+      img: string;
+    };
+    qty: string;
+  }[];
+  totalAmount: string;
 };

@@ -2,10 +2,7 @@ import Collection from "@/components/shared/Collection";
 import { createCategory } from "@/lib/actions/category.actions";
 import { createProduct, getAllProducts } from "@/lib/actions/product.actions";
 import { PRODUCTS } from "@/lib/constants";
-
-type SearchParamProps = {
-  searchParams: { [key: string]: string | string[] | undefined };
-};
+import { SearchParamProps } from "@/lib/types";
 
 export default async function Home({ searchParams }: SearchParamProps) {
   const page = Number(searchParams?.page) || 1;

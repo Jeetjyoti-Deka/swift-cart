@@ -5,8 +5,6 @@ import { Button } from "../ui/button";
 import Link from "next/link";
 import { SignedIn } from "@clerk/clerk-react";
 import Checkout from "./Checkout";
-import { getSingleProduct } from "@/lib/actions/product.actions";
-import { useStore } from "@/lib/store";
 
 const CheckoutBtn = () => {
   const { user } = useUser();

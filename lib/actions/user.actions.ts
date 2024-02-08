@@ -64,3 +64,15 @@ export async function updateUser(clerkId: string, user: UpdateUserParams) {
     console.log(error);
   }
 }
+
+export const getUserIdByClerkId = async (clerkId: string) => {
+  try {
+    await connectToDatabase();
+
+    const user = await User.findOne({ clerkId });
+
+    return JSON.parse(JSON.stringify(user._id));
+  } catch (error) {
+    console.log(error);
+  }
+};

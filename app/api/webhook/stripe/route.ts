@@ -24,9 +24,6 @@ export async function POST(request: Request) {
   if (eventType === "checkout.session.completed") {
     const { id, amount_total, metadata } = event.data.object;
 
-    console.log(amount_total, id, metadata);
-    console.log(event.data.object.metadata?.productIds);
-
     const productsString = metadata?.productIds.split(",");
 
     const products = productsString?.map((product) => {
@@ -45,7 +42,6 @@ export async function POST(request: Request) {
     };
 
     const newOrder = await createOrder(order);
-    console.log(newOrder);
 
     return NextResponse.json({ message: "OK", order: newOrder });
   }

@@ -3,7 +3,7 @@ import { Schema, model, models } from "mongoose";
 export type TOrder = {
   buyerId: string;
   products: {
-    productId: string;
+    productId: string; //this is the id
     qty: string;
   }[];
   createdAt: Date;

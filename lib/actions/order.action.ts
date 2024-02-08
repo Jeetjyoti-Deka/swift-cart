@@ -5,6 +5,11 @@ import { CheckoutOrderParams } from "../types";
 import { redirect } from "next/navigation";
 import { connectToDatabase } from "../mongodb";
 import Order, { TOrder } from "../mongodb/models/order.model";
+import Product from "../mongodb/models/product.model";
+
+type getOrderByBuyerIdProps = {
+  buyerId: string;
+};
 
 export const checkoutOrder = async (order: CheckoutOrderParams) => {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
@@ -45,6 +50,28 @@ export const createOrder = async (order: TOrder) => {
 
     const newOrder = await Order.create(order);
     return JSON.parse(JSON.stringify(newOrder));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getOrderByBuyerId = async ({
+  buyerId,
+}: getOrderByBuyerIdProps) => {
+  try {
+    await connectToDatabase();
+
+    const orders = await Order.find({ buyerId })
+      .populate({
+        path: "products.productId",
+        model: Product,
+        select: "name price img",
+      })
+      .select("-createdAt -stripeId");
+
+    // console.log(orders[0].products);
+
+    return JSON.parse(JSON.stringify(orders));
   } catch (error) {
     console.log(error);
   }
