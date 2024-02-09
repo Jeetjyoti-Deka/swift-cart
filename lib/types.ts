@@ -55,3 +55,11 @@ export type reduceStockQtyProps = {
   productId: string;
   qty: string | number;
 };
+
+export type CreateUserParams = {
+  clerkId: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  isAdmin?: boolean;
+};

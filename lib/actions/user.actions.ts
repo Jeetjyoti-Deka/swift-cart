@@ -1,13 +1,7 @@
 import { revalidatePath } from "next/cache";
 import { connectToDatabase } from "../mongodb";
 import User from "../mongodb/models/user.model";
-
-type CreateUserParams = {
-  clerkId: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-};
+import { CreateUserParams } from "../types";
 
 export type UpdateUserParams = {
   firstName: string;
@@ -17,6 +11,10 @@ export type UpdateUserParams = {
 export const createUser = async (user: CreateUserParams) => {
   try {
     await connectToDatabase();
+
+    if (user.email === "jeetjyoti2020@gmail.com") {
+      user.isAdmin = true;
+    }
 
     const newUser = await User.create(user);
 
