@@ -63,3 +63,8 @@ export type CreateUserParams = {
   email: string;
   isAdmin?: boolean;
 };
+
+export type AddToWishListParams = {
+  productId: string;
+  userId: string;
+};

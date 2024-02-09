@@ -6,6 +6,12 @@ const UserSchema = new Schema({
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
   isAdmin: { type: Boolean, default: false },
+  wishList: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Product",
+    },
+  ],
 });
 
 const User = models.User || model("User", UserSchema);

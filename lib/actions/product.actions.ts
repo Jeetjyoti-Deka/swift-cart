@@ -10,6 +10,12 @@ type getAllProductsProps = {
   limit: number;
 };
 
+type getRelatedProductsProps = {
+  productId: string;
+  page: number | string;
+  limit?: number;
+};
+
 type getProductsByCategoryIdProps = {
   categoryId: string;
   page: number;
@@ -111,12 +117,6 @@ export const getProductsByCategoryId = async ({
   } catch (error) {
     console.log(error);
   }
-};
-
-type getRelatedProductsProps = {
-  productId: string;
-  page: number | string;
-  limit?: number;
 };
 
 export const getRelatedProducts = async ({

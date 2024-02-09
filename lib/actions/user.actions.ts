@@ -1,7 +1,11 @@
+"use server";
+
 import { revalidatePath } from "next/cache";
 import { connectToDatabase } from "../mongodb";
 import User from "../mongodb/models/user.model";
-import { CreateUserParams } from "../types";
+import { CreateUserParams, AddToWishListParams } from "../types";
+import Order from "../mongodb/models/order.model";
+import Product from "../mongodb/models/product.model";
 
 export type UpdateUserParams = {
   firstName: string;
@@ -33,11 +37,10 @@ export const deleteUser = async (id: string) => {
     if (!userToDelete) {
       throw new Error("User not found");
     }
-    // TODO:
-    //   await Order.updateMany(
-    //     { _id: { $in: userToDelete.orders } },
-    //     { $unset: { buyer: 1 } }
-    //   ),
+    await Order.updateMany(
+      { _id: { $in: userToDelete.orders } },
+      { $unset: { buyer: 1 } }
+    );
 
     const deletedUser = await User.findByIdAndDelete(userToDelete._id);
     revalidatePath("/");
@@ -70,6 +73,65 @@ export const getUserIdByClerkId = async (clerkId: string) => {
     const user = await User.findOne({ clerkId });
 
     return JSON.parse(JSON.stringify(user._id));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const addToWishList = async ({
+  productId,
+  userId,
+}: AddToWishListParams) => {
+  try {
+    await connectToDatabase();
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    if (user.wishList && user.wishList.length >= 1) {
+      const itemExist = user.wishList.some(
+        (itemId: any) => itemId.toString() === productId
+      );
+
+      if (itemExist) {
+        return { message: "Product already exist in the wishlist" };
+      } else {
+        user.wishList = [...user.wishList, productId];
+      }
+    } else {
+      user.wishList = [productId];
+    }
+
+    user.save();
+    revalidatePath("/profile", "layout");
+    return { message: "Product added to wishlist" };
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getWishListProducts = async ({ userId }: { userId: string }) => {
+  try {
+    await connectToDatabase();
+
+    let user = await User.findById(userId);
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    user = await user.populate({
+      path: "wishList",
+      model: Product,
+      select: "_id name img price stockQty",
+    });
+
+    const products = user.wishList;
+
+    return JSON.parse(JSON.stringify(products));
   } catch (error) {
     console.log(error);
   }
