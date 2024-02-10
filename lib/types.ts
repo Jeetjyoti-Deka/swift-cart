@@ -68,3 +68,8 @@ export type AddToWishListParams = {
   productId: string;
   userId: string;
 };
+
+export type DeleteWishListItemParams = {
+  userId: string;
+  productId: string;
+};

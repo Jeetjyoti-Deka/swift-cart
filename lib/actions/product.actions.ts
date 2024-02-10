@@ -77,7 +77,11 @@ export const getAllProducts = async ({
 export const getSingleProduct = async (productId: string) => {
   try {
     await connectToDatabase();
-    const product = await Product.findById(productId);
+    const product = await Product.findById(productId).populate({
+      path: "categories",
+      model: Category,
+      select: "_id name",
+    });
     return JSON.parse(JSON.stringify(product));
   } catch (error) {
     console.log(error);

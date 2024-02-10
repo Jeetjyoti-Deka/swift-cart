@@ -3,7 +3,11 @@
 import { revalidatePath } from "next/cache";
 import { connectToDatabase } from "../mongodb";
 import User from "../mongodb/models/user.model";
-import { CreateUserParams, AddToWishListParams } from "../types";
+import {
+  CreateUserParams,
+  AddToWishListParams,
+  DeleteWishListItemParams,
+} from "../types";
 import Order from "../mongodb/models/order.model";
 import Product from "../mongodb/models/product.model";
 import { getSingleProduct } from "./product.actions";
@@ -132,12 +136,6 @@ export const getWishListProducts = async ({
       throw new Error("User not found");
     }
 
-    // user = await user.populate({
-    //   path: "wishList",
-    //   model: Product,
-    //   select: "_id name img price stockQty",
-    // });
-
     const start = (page - 1) * limit;
     const end = page * limit;
 
@@ -156,6 +154,33 @@ export const getWishListProducts = async ({
       data: JSON.parse(JSON.stringify(newProducts)),
       totalPages,
     };
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteWishListItem = async ({
+  userId,
+  productId,
+}: DeleteWishListItemParams) => {
+  try {
+    await connectToDatabase();
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      throw new Error("User not found.");
+    }
+
+    user.wishList = user.wishList.filter(
+      (item: any) => item.toString() !== productId
+    );
+
+    await user.save();
+
+    revalidatePath("/profile");
+
+    return { message: "Product removed from the wishlist" };
   } catch (error) {
     console.log(error);
   }

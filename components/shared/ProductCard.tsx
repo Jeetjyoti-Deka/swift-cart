@@ -5,8 +5,15 @@ import { Badge } from "../ui/badge";
 import Link from "next/link";
 import WishListBtn from "./WishListBtn";
 import { Product } from "@/lib/types";
+import DeleteFromWishListBtn from "./DeleteFromWishListBtn";
 
-const ProductCard = ({ product }: { product: Product }) => {
+const ProductCard = ({
+  product,
+  type = "default",
+}: {
+  product: Product;
+  type?: "order" | "wishlist" | "default";
+}) => {
   return (
     <Card className="w-[280px] md:w-[305px] overflow-hidden shadow-product-card relative group">
       <CardHeader className="p-0">
@@ -46,7 +53,11 @@ const ProductCard = ({ product }: { product: Product }) => {
             <Button variant="outline" className="w-full mt-3">
               Buy Now!
             </Button>
-            <WishListBtn productId={product._id} />
+            {type === "wishlist" ? (
+              <DeleteFromWishListBtn productId={product._id} />
+            ) : (
+              <WishListBtn productId={product._id} />
+            )}
           </>
         )}
       </CardContent>
