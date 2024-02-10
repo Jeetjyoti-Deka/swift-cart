@@ -6,6 +6,7 @@ import User from "../mongodb/models/user.model";
 import { CreateUserParams, AddToWishListParams } from "../types";
 import Order from "../mongodb/models/order.model";
 import Product from "../mongodb/models/product.model";
+import { getSingleProduct } from "./product.actions";
 
 export type UpdateUserParams = {
   firstName: string;
@@ -113,7 +114,15 @@ export const addToWishList = async ({
   }
 };
 
-export const getWishListProducts = async ({ userId }: { userId: string }) => {
+export const getWishListProducts = async ({
+  userId,
+  page,
+  limit = 3,
+}: {
+  userId: string;
+  page: number;
+  limit?: number;
+}) => {
   try {
     await connectToDatabase();
 
@@ -123,15 +132,30 @@ export const getWishListProducts = async ({ userId }: { userId: string }) => {
       throw new Error("User not found");
     }
 
-    user = await user.populate({
-      path: "wishList",
-      model: Product,
-      select: "_id name img price stockQty",
-    });
+    // user = await user.populate({
+    //   path: "wishList",
+    //   model: Product,
+    //   select: "_id name img price stockQty",
+    // });
 
-    const products = user.wishList;
+    const start = (page - 1) * limit;
+    const end = page * limit;
 
-    return JSON.parse(JSON.stringify(products));
+    let products = user.wishList.slice(start, end);
+
+    const totalPages = Math.ceil(user.wishList.length / limit);
+
+    const newProducts = [];
+
+    for (const productId of products) {
+      const product = await getSingleProduct(productId);
+      newProducts.push(product);
+    }
+
+    return {
+      data: JSON.parse(JSON.stringify(newProducts)),
+      totalPages,
+    };
   } catch (error) {
     console.log(error);
   }
