@@ -7,6 +7,7 @@ import {
 import { OrderUi, Product, SearchParamProps } from "@/lib/types";
 import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
+import page from "../cart/page";
 
 const ProfilePage = async ({ searchParams }: SearchParamProps) => {
   const { userId } = auth();
@@ -34,10 +35,11 @@ const ProfilePage = async ({ searchParams }: SearchParamProps) => {
     );
   });
 
-  const totalPages = Math.ceil(orderProducts.length / 6);
-  const page = Number(searchParams?.page) || 1;
-  let start = (page - 1) * 6;
-  let end = page * 6;
+  const order_limit = 3;
+  const order_totalPages = Math.ceil(orderProducts.length / order_limit);
+  const order_page = Number(searchParams?.order_page) || 1;
+  let start = (order_page - 1) * order_limit;
+  let end = order_page * order_limit;
   orderProducts = orderProducts.slice(start, end);
 
   const wishListProducts = await getWishListProducts({ userId: buyerId });
@@ -47,15 +49,17 @@ const ProfilePage = async ({ searchParams }: SearchParamProps) => {
       <h1 className="text-center my-4 text-2xl font-semibold">My Orders</h1>
       <Collection
         products={orderProducts}
-        page={page}
-        totalPages={totalPages}
+        page={order_page}
+        totalPages={order_totalPages}
+        type="order"
       />
-      <h1>My Wishlist</h1>
-      <Collection
+      <h1 className="text-center my-4 text-2xl font-semibold">My Wishlist</h1>
+      {/* <Collection
         products={wishListProducts}
         page={page}
         totalPages={totalPages}
-      />
+        type="wishlist"
+      /> */}
     </div>
   );
 };

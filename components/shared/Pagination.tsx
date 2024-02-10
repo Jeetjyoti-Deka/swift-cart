@@ -7,9 +7,14 @@ import { Button } from "../ui/button";
 type PaginationProps = {
   page: number;
   totalPages: number;
+  type?: "order" | "wishlist" | "default";
 };
 
-const CustomPagination = ({ page, totalPages }: PaginationProps) => {
+const CustomPagination = ({
+  page,
+  totalPages,
+  type = "default",
+}: PaginationProps) => {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -18,7 +23,7 @@ const CustomPagination = ({ page, totalPages }: PaginationProps) => {
 
     const newUrl = formUrlQuery({
       params: searchParams.toString(),
-      key: "page",
+      key: type !== "default" ? `${type}_page` : "page",
       value: pageValue.toString(),
     });
 
