@@ -14,7 +14,6 @@ export default async function Home({ searchParams }: SearchParamProps) {
 
   return (
     <div className="">
-      {/* TODO: Pass products from db */}
       <Collection
         products={products?.data}
         page={page}

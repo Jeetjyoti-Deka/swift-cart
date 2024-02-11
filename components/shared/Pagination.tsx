@@ -7,7 +7,7 @@ import { Button } from "../ui/button";
 type PaginationProps = {
   page: number;
   totalPages: number;
-  type?: "order" | "wishlist" | "default";
+  type?: "order" | "wishlist" | "update" | "default";
 };
 
 const CustomPagination = ({

@@ -12,12 +12,18 @@ const ProductCard = ({
   type = "default",
 }: {
   product: Product;
-  type?: "order" | "wishlist" | "default";
+  type?: "order" | "wishlist" | "update" | "default";
 }) => {
   return (
     <Card className="w-[280px] md:w-[305px] overflow-hidden shadow-product-card relative group">
       <CardHeader className="p-0">
-        <Link href={`/products/${product._id}`}>
+        <Link
+          href={
+            type === "update"
+              ? `/update/${product._id}`
+              : `/products/${product._id}`
+          }
+        >
           <div className="overflow-hidden">
             <Image
               src={`/images/${product.img}`}
@@ -48,11 +54,21 @@ const ProductCard = ({
           Price: ${product.price}
         </p>
         {product.qty && <p>Quantity: {product.qty}</p>}
+        {product.stockQty && type === "update" && (
+          <p>Stock: {product.stockQty}</p>
+        )}
         {product.stockQty && (
           <>
-            <Button variant="outline" className="w-full mt-3">
-              Buy Now!
-            </Button>
+            {type !== "update" ? (
+              <Button variant="outline" className="w-full mt-3">
+                Buy Now!
+              </Button>
+            ) : (
+              <Button variant="outline" className="w-full mt-3" asChild>
+                <Link href={`/update/${product._id}`}>Update</Link>
+              </Button>
+            )}
+
             {type === "wishlist" ? (
               <DeleteFromWishListBtn productId={product._id} />
             ) : (

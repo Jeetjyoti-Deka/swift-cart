@@ -11,7 +11,7 @@ const Collection = ({
   products: Product[];
   page: number;
   totalPages: number;
-  type?: "order" | "wishlist" | "default";
+  type?: "order" | "wishlist" | "update" | "default";
 }) => {
   if (products.length < 1) {
     return (
