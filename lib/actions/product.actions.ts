@@ -1,9 +1,10 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { connectToDatabase } from "../mongodb";
 import Category from "../mongodb/models/category.model";
 import Product from "../mongodb/models/product.model";
-import { reduceStockQtyProps } from "../types";
+import { UpdateProductParams, reduceStockQtyProps } from "../types";
 
 type getAllProductsProps = {
   page: number | string;
@@ -181,6 +182,24 @@ export const reduceStockQty = async ({
     await product.save();
 
     return { message: "Reduced Quantity successfully" };
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const updateProduct = async ({ values }: UpdateProductParams) => {
+  try {
+    await connectToDatabase();
+
+    const product = await Product.findByIdAndUpdate(values._id, values);
+
+    if (!product) {
+      throw new Error("Could not update Product");
+    }
+
+    revalidatePath("/update");
+
+    return JSON.parse(JSON.stringify(product));
   } catch (error) {
     console.log(error);
   }

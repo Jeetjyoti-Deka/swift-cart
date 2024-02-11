@@ -73,3 +73,7 @@ export type DeleteWishListItemParams = {
   userId: string;
   productId: string;
 };
+
+export type UpdateProductParams = {
+  values: Product;
+};
