@@ -1,13 +1,35 @@
 "use client";
 
-import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import {
+  SignInButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+  useUser,
+} from "@clerk/nextjs";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "../ui/button";
 import MobileNav from "./MobileNav";
+import { useEffect, useState } from "react";
+import { checkAdminWithUserId } from "@/lib/actions/user.actions";
 
 const Navbar = () => {
   const pathName = usePathname();
+  const { user } = useUser();
+  const userId = user?.publicMetadata.userId as string;
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    const setAdminStatus = async () => {
+      if (userId) {
+        const result = await checkAdminWithUserId(userId);
+        setIsAdmin(result);
+      }
+    };
+
+    setAdminStatus();
+  }, [userId]);
 
   return (
     <nav className="p-4 sm:h-[64px] flex items-center justify-between max-sm:shadow-nav max-sm:rounded-[24px] max-sm:p-2 max-sm:mt-4 max-sm:mx-1">
@@ -39,6 +61,7 @@ const Navbar = () => {
           >
             Profile
           </Link>
+          {isAdmin && <Link href="/update">Update products</Link>}
         </SignedIn>
       </div>
       <div className="">

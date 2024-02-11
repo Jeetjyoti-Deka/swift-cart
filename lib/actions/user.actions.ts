@@ -77,6 +77,10 @@ export const getUserIdByClerkId = async (clerkId: string) => {
 
     const user = await User.findOne({ clerkId });
 
+    if (!user) {
+      throw new Error("User not found");
+    }
+
     return JSON.parse(JSON.stringify(user._id));
   } catch (error) {
     console.log(error);
@@ -181,6 +185,18 @@ export const deleteWishListItem = async ({
     revalidatePath("/profile");
 
     return { message: "Product removed from the wishlist" };
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const checkAdminWithUserId = async (userId: string) => {
+  try {
+    await connectToDatabase();
+
+    const user = await User.findById(userId);
+
+    return user.isAdmin;
   } catch (error) {
     console.log(error);
   }

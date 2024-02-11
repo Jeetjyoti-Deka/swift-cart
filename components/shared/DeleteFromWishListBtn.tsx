@@ -30,7 +30,7 @@ const DeleteFromWishListBtn = ({ productId }: { productId: string }) => {
           </Button>
         </TooltipTrigger>
         <TooltipContent>
-          <p>Add to Wishlist</p>
+          <p>Remove from Wishlist</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
