@@ -2,7 +2,6 @@ import {
   Sheet,
   SheetClose,
   SheetContent,
-  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -14,7 +13,13 @@ import { NAV_LINKS } from "@/lib/constants";
 import { SignInButton, SignedOut } from "@clerk/nextjs";
 import { Button } from "../ui/button";
 
-const MobileNav = ({ pathName }: { pathName: string }) => {
+const MobileNav = ({
+  pathName,
+  isAdmin,
+}: {
+  pathName: string;
+  isAdmin: boolean;
+}) => {
   return (
     <div className="sm:hidden block">
       <Sheet>
@@ -33,6 +38,7 @@ const MobileNav = ({ pathName }: { pathName: string }) => {
                   label={link.label}
                   route={link.route}
                   pathName={pathName}
+                  isAdmin={isAdmin}
                 />
               ))}
             </div>

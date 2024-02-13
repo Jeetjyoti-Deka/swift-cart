@@ -34,7 +34,7 @@ const Navbar = () => {
   return (
     <nav className="p-4 sm:h-[64px] flex items-center justify-between max-sm:shadow-nav max-sm:rounded-[24px] max-sm:p-2 max-sm:mt-4 max-sm:mx-1">
       <div className="flex items-center justify-center gap-x-3">
-        <MobileNav pathName={pathName} />
+        <MobileNav pathName={pathName} isAdmin={isAdmin} />
         <h4>SwiftCart</h4>
       </div>
       <div className="hidden sm:flex items-center gap-x-4 text-lg">

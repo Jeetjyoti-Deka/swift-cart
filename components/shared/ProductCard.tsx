@@ -6,6 +6,7 @@ import Link from "next/link";
 import WishListBtn from "./WishListBtn";
 import { Product } from "@/lib/types";
 import DeleteFromWishListBtn from "./DeleteFromWishListBtn";
+import BuyNowBtn from "./BuyNowBtn";
 
 const ProductCard = ({
   product,
@@ -60,9 +61,7 @@ const ProductCard = ({
         {product.stockQty && (
           <>
             {type !== "update" ? (
-              <Button variant="outline" className="w-full mt-3">
-                Buy Now!
-              </Button>
+              <BuyNowBtn product={product} />
             ) : (
               <Button variant="outline" className="w-full mt-3" asChild>
                 <Link href={`/update/${product._id}`}>Update</Link>

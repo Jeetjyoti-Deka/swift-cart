@@ -94,4 +94,8 @@ export const NAV_LINKS = [
     label: "Cart",
     route: "/cart",
   },
+  {
+    label: "Update Products",
+    route: "/update",
+  },
 ];

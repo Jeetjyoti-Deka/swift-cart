@@ -17,6 +17,7 @@ type Store = {
   changeProductQuantity: (productId: string, qty: number) => void;
   deleteCartItem: (productId: string) => void;
   calculateTotalPrice: () => void;
+  buyItem: (cartProduct: CartProduct) => void;
 };
 
 export const useStore = create<Store>()(
@@ -73,6 +74,9 @@ export const useStore = create<Store>()(
             0
           ),
         })),
+      buyItem: (cartProduct: CartProduct) => {
+        set(() => ({ cart: [cartProduct] }));
+      },
     }),
     { name: "cart" }
   )

@@ -6,20 +6,26 @@ type MobileNavLinkProps = {
   pathName: string;
   label: string;
   route: string;
+  isAdmin: boolean;
 };
 
-const MobileNavLink = ({ pathName, label, route }: MobileNavLinkProps) => {
+const MobileNavLink = ({
+  pathName,
+  label,
+  route,
+  isAdmin,
+}: MobileNavLinkProps) => {
   return (
     <SheetClose asChild>
       <Link
         href={route}
-        className={`${
-          pathName === route && "active-mobile-nav-link"
+        className={`${pathName === route && "active-mobile-nav-link"} ${
+          route === "/update" && isAdmin === false ? "hidden" : "" // hiding the update route
         } w-full flex items-center justify-start gap-x-2 rounded-[8px] px-4 py-2 `}
       >
         <Image
           src={`/icons/${label}.svg`}
-          alt="label"
+          alt={`${label}`}
           width={24}
           height={24}
           className={`${pathName === route && "active-mobile-nav-icon"}`}
