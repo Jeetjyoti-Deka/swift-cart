@@ -13,7 +13,7 @@ export default async function Home({ searchParams }: SearchParamProps) {
   // });
 
   return (
-    <div className="">
+    <div className="flex-1">
       <Collection
         products={products?.data}
         page={page}

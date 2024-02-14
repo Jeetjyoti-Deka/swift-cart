@@ -99,3 +99,19 @@ export const NAV_LINKS = [
     route: "/update",
   },
 ];
+
+export const FOOTER_LINKS = [
+  {
+    img: "/icons/linkedin.svg",
+    href: "https://www.linkedin.com/in/jeetjyoti-deka-7848b2247/",
+  },
+  {
+    img: "/icons/twitter.svg",
+    href: "https://twitter.com/deka_jeetjyoti",
+  },
+
+  {
+    img: "/icons/gmail.svg",
+    href: "mailto:jeetjyotiwork@gmail.com",
+  },
+];
