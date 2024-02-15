@@ -40,13 +40,12 @@ export const checkoutOrder = async (order: CheckoutOrderParams) => {
       cancel_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/`,
     });
   } catch (error: any) {
-    // TODO: Toast about the error message
     if (
       error.message &&
       error.message ===
         "Amount for an export transaction must be less than $10,000.00."
     ) {
-      // toast
+      return { message: error.message };
     } else {
       console.log(error);
     }

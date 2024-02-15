@@ -6,12 +6,13 @@ import { useEffect } from "react";
 import { checkoutOrder } from "@/lib/actions/order.action";
 import { useStore } from "@/lib/store";
 import { getSingleProduct } from "@/lib/actions/product.actions";
+import { useToast } from "../ui/use-toast";
 
 loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
 const Checkout = ({ userId }: { userId: string }) => {
+  const { toast } = useToast();
   useEffect(() => {
-    // Check to see if this is a redirect back from Checkout
     const query = new URLSearchParams(window.location.search);
     if (query.get("success")) {
       console.log("Order placed! You will receive an email confirmation.");
@@ -51,9 +52,15 @@ const Checkout = ({ userId }: { userId: string }) => {
       productIds,
     };
 
-    console.log(order);
+    const res = await checkoutOrder(order);
 
-    await checkoutOrder(order);
+    if (res && res.message) {
+      toast({
+        title: "Payment Error",
+        description: res.message,
+        variant: "destructive",
+      });
+    }
   };
 
   return (
