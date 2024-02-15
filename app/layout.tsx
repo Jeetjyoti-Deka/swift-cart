@@ -5,6 +5,7 @@ import "./globals.css";
 import Navbar from "@/components/shared/Navbar";
 import { Separator } from "@/components/ui/separator";
 import Footer from "@/components/shared/Footer";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,6 +27,7 @@ export default function RootLayout({
           <Separator className="hidden sm:block" decorative />
           <main className="scrollbar-hidden  min-h-[80vh]">{children}</main>
           <Footer />
+          <Toaster />
         </body>
       </html>
     </ClerkProvider>
