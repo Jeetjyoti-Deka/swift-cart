@@ -3,6 +3,7 @@ import { createCategory } from "@/lib/actions/category.actions";
 import { createProduct, getAllProducts } from "@/lib/actions/product.actions";
 import { PRODUCTS } from "@/lib/constants";
 import { SearchParamProps } from "@/lib/types";
+import { Suspense } from "react";
 
 export default async function Home({ searchParams }: SearchParamProps) {
   const page = Number(searchParams?.page) || 1;
@@ -13,7 +14,7 @@ export default async function Home({ searchParams }: SearchParamProps) {
   // });
 
   return (
-    <div className="flex-1">
+    <div className="">
       <Collection
         products={products?.data}
         page={page}

@@ -3,6 +3,7 @@
 import { useStore } from "@/lib/store";
 import CartItem from "./CartItem";
 import Link from "next/link";
+import { Suspense } from "react";
 
 const CartItems = () => {
   const { cart } = useStore();
@@ -11,7 +12,9 @@ const CartItems = () => {
     return (
       <div className="flex flex-1 flex-col gap-y-2">
         {cart.map((item) => (
-          <CartItem key={item.productId} cartItem={item} />
+          <Suspense key={item.productId} fallback={<h1>Loading...</h1>}>
+            <CartItem cartItem={item} />
+          </Suspense>
         ))}
       </div>
     );

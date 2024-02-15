@@ -4,7 +4,7 @@ import { Separator } from "@/components/ui/separator";
 
 const CartPage = () => {
   return (
-    <div className="relative">
+    <div className="relative h-full">
       <Separator decorative className="sm:hidden block" />
       <div className="px-3 mt-6 lg:flex w-full">
         <CartItems />
