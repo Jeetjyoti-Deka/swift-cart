@@ -23,7 +23,7 @@ const CategoryPage = async ({
 
   return (
     <div>
-      <h1 className="font-semibold text-2xl">
+      <h1 className="font-semibold text-2xl text-center my-4">
         {capitalizeString(categoryName)}
       </h1>
       <Collection
