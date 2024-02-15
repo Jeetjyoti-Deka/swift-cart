@@ -80,9 +80,8 @@ export const getOrderByBuyerId = async ({
         model: Product,
         select: "name price img",
       })
-      .select("-createdAt -stripeId");
-
-    // console.log(orders[0].products);
+      .select("-createdAt -stripeId")
+      .sort({ createdAt: "desc" });
 
     return JSON.parse(JSON.stringify(orders));
   } catch (error) {

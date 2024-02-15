@@ -67,13 +67,14 @@ const ProductCard = ({
           {product.qty && <p>Quantity: {product.qty}</p>}
           {type === "update" && <p>Stock: {product.stockQty}</p>}
 
-          {type !== "update" ? (
-            <BuyNowBtn product={product} />
-          ) : (
+          {type === "update" && (
             <Button variant="outline" className="w-full mt-3" asChild>
               <Link href={`/update/${product._id}`}>Update</Link>
             </Button>
           )}
+          {type === "default" || type === "wishlist" ? (
+            <BuyNowBtn product={product} />
+          ) : null}
 
           {type === "wishlist" ? (
             <DeleteFromWishListBtn productId={product._id} />
