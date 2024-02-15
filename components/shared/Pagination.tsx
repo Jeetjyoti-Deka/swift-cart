@@ -27,7 +27,7 @@ const CustomPagination = ({
       value: pageValue.toString(),
     });
 
-    router.push(newUrl, { scroll: false });
+    router.push(newUrl);
   };
 
   return (

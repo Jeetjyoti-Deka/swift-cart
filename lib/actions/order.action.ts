@@ -39,10 +39,22 @@ export const checkoutOrder = async (order: CheckoutOrderParams) => {
       success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/profile`,
       cancel_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/`,
     });
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
+    // TODO: Toast about the error message
+    if (
+      error.message &&
+      error.message ===
+        "Amount for an export transaction must be less than $10,000.00."
+    ) {
+      // toast
+    } else {
+      console.log(error);
+    }
   }
-  redirect(session?.url!);
+
+  if (session?.url) {
+    redirect(session?.url!);
+  }
 };
 
 export const createOrder = async (order: TOrder) => {

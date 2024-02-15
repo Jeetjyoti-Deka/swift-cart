@@ -1,10 +1,12 @@
 import AddToCartBtn from "@/components/shared/AddToCartBtn";
 import Collection from "@/components/shared/Collection";
+import ProductPageImage from "@/components/shared/ProductPageImage";
 import QuantitySelect from "@/components/shared/QuantitySelect";
 import {
   getRelatedProducts,
   getSingleProduct,
 } from "@/lib/actions/product.actions";
+import { Product } from "@/lib/types";
 import Image from "next/image";
 
 const ProductPage = async ({
@@ -14,7 +16,7 @@ const ProductPage = async ({
   params: { productId: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
-  const product = await getSingleProduct(productId);
+  const product: Product = await getSingleProduct(productId);
 
   const page = Number(searchParams?.page) || 1;
 
@@ -27,17 +29,15 @@ const ProductPage = async ({
   return (
     <div className="p-4 max-w-7xl mx-auto">
       <div className="flex flex-col md:flex-row items-start justify-center gap-x-6">
-        <div className="h-[270px] md:h-[400px] shadow-product-card rounded-[8px] overflow-hidden mx-auto">
-          <Image
-            src={`/images/${product?.img}`}
-            alt={product?.name!}
-            width={300}
-            height={300}
-            className="h-full w-auto object-cover"
-          />
-        </div>
+        <ProductPageImage img={product.img} name={product.name} />
         <div className="w-full md:w-[50%] flex flex-col items-center md:items-start gap-y-3 pt-3">
-          <h1 className="text-2xl font-semibold">{product?.name}</h1>
+          <h1
+            className={`text-2xl font-semibold ${
+              product.stockQty! < 1 && "text-red-500"
+            }`}
+          >
+            {product?.name} {product.stockQty! < 1 && `(Out Of Stock)`}
+          </h1>
           <p className="font-medium text-slate-400 tracking-wide text-sm max-md:max-w-xl max-md:text-center">
             {product?.description}
           </p>
@@ -49,13 +49,16 @@ const ProductPage = async ({
             </div>
           </div>
 
-          <AddToCartBtn productId={product?._id!} price={product?.price!} />
+          <AddToCartBtn
+            productId={product?._id!}
+            price={product?.price!}
+            stockQty={product.stockQty!}
+          />
         </div>
       </div>
       <div className="mt-16">
         <h3 className="text-xl font-medium">Related Products</h3>
         <div className="bg-slate-100 rounded-[8px] py-2">
-          {/* TODO: Related products by category */}
           <Collection
             products={relatedProducts?.data}
             page={page}

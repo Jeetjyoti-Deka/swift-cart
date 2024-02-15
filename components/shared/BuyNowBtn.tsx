@@ -20,6 +20,7 @@ const BuyNowBtn = ({ product }: BuyNowBtnProps) => {
         buyItem({ productId: product._id, price: product.price, qty: 1 });
         router.push("/cart");
       }}
+      disabled={product.stockQty! < 1}
     >
       Buy Now!
     </Button>

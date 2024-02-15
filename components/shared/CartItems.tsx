@@ -3,20 +3,35 @@
 import { useStore } from "@/lib/store";
 import CartItem from "./CartItem";
 import Link from "next/link";
-import { Suspense } from "react";
+import { motion } from "framer-motion";
+
+const container = {
+  hidden: { opacity: 1, scale: 0 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      delayChildren: 0.3,
+      staggerChildren: 0.2,
+    },
+  },
+};
 
 const CartItems = () => {
   const { cart } = useStore();
 
   if (cart.length > 0) {
     return (
-      <div className="flex flex-1 flex-col gap-y-2">
+      <motion.div
+        variants={container}
+        initial="hidden"
+        animate="visible"
+        className="flex flex-1 flex-col gap-y-2"
+      >
         {cart.map((item) => (
-          <Suspense key={item.productId} fallback={<h1>Loading...</h1>}>
-            <CartItem cartItem={item} />
-          </Suspense>
+          <CartItem key={item.productId} cartItem={item} />
         ))}
-      </div>
+      </motion.div>
     );
   } else {
     return (

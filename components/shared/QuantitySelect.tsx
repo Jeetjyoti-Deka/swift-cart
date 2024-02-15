@@ -39,7 +39,7 @@ const QuantitySelect = ({
   return (
     // TODO: implement setting quantity in zustand
     <Select onValueChange={(e) => handleValueChange(e)}>
-      <SelectTrigger className="w-full">
+      <SelectTrigger className="w-full" disabled={stockQty < 1}>
         <SelectValue
           placeholder={defaultQty || "Select Quantity"}
           defaultValue={defaultQty || 1}

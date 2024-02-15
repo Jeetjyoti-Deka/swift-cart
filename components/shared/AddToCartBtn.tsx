@@ -6,9 +6,10 @@ import { Button } from "../ui/button";
 type AddToCartBtnProps = {
   productId: string;
   price: number;
+  stockQty: number;
 };
 
-const AddToCartBtn = ({ productId, price }: AddToCartBtnProps) => {
+const AddToCartBtn = ({ productId, price, stockQty }: AddToCartBtnProps) => {
   const { addToCart, cart, selectQty } = useStore();
   return (
     <Button
@@ -20,8 +21,8 @@ const AddToCartBtn = ({ productId, price }: AddToCartBtnProps) => {
           price,
           qty: selectQty,
         });
-        console.log(cart);
       }}
+      disabled={stockQty < 1}
     >
       Add To Cart!
     </Button>

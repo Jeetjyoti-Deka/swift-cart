@@ -1,3 +1,5 @@
+"use client";
+
 import { CartProduct } from "@/lib/store";
 import Image from "next/image";
 import QuantitySelect from "./QuantitySelect";
@@ -7,6 +9,15 @@ import DeleteCartItem from "./DeleteCartItem";
 import { getSingleProduct } from "@/lib/actions/product.actions";
 import { useEffect, useState } from "react";
 import { Product } from "@/lib/types";
+import { motion } from "framer-motion";
+
+const item = {
+  hidden: { scale: 0.2, opacity: 0 },
+  visible: {
+    scale: 1,
+    opacity: 1,
+  },
+};
 
 const CartItem = ({ cartItem }: { cartItem: CartProduct }) => {
   const [product, setProduct] = useState<Product | null>(null);
@@ -25,7 +36,10 @@ const CartItem = ({ cartItem }: { cartItem: CartProduct }) => {
 
   if (product) {
     return (
-      <div className="flex items-start justify-start gap-x-2 hover:bg-slate-100 transition-colors overflow-hidden relative">
+      <motion.div
+        variants={item}
+        className="flex items-start justify-start gap-x-2 hover:bg-slate-100 transition-colors overflow-hidden relative"
+      >
         <div className="flex sm:block max-sm:flex-col">
           <Image
             src={`/images/${product.img!}`}
@@ -63,7 +77,7 @@ const CartItem = ({ cartItem }: { cartItem: CartProduct }) => {
           </div>
         </div>
         <DeleteCartItem productId={product._id} />
-      </div>
+      </motion.div>
     );
   } else {
     return <></>;
